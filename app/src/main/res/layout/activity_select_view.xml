@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.dhq.mywidget.selectview.SelectView
+        android:id="@+id/main_selectview"
+        android:layout_width="match_parent"
+        android:layout_height="80dp" />
+
+    <com.dhq.mywidget.selectview.WheelView
+        android:id="@+id/main_wheelview"
+        android:layout_width="80dp"
+        android:layout_height="200dp" />
+
+</LinearLayout>

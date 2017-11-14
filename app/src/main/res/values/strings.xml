@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">Mywidget</string>
+    <string name="app_name">MyWidget</string>
+
+    <string name="test"><Data><![CDATA[ <p><font color="#0ACFFE">ABC</font>时空裂缝了看电视</p><p><font color="#0ACFFE">ABC</font>时空裂缝了看电视</p> ]]></Data></string>
+    <string name="recharge_desc"><Data><![CDATA[ <p>预存金额满<font color="#0ACFFE">N</font>元，<font color="#0ACFFE">M</font>个<font color="#0ACFFE">N/M</font>元的等值本金券(本金券面额固定，消费时可以自动扣款生成余额)，从预存的第<font color="#0ACFFE">N</font>天/月开始生效，永久有效</p><p><font color="#0ACFFE">M</font>个<font color="#0ACFFE">N/M</font>元的等值奖励券从预存的第<font color="#0ACFFE">N</font>天/月开始生效，并且当月有效，过期作废</p> ]]></Data></string>
+    <string name="recharge_desc2"><Data><![CDATA[ <p><font color="#0ACFFE">%1$d</font>张￥<font color="#0ACFFE">%2$d</font>面额的本金券</p> ]]></Data></string>
+
+    <string name="recharge_desc3"><Data><![CDATA[ <p style="color:blue"><b>[考点定位]</b></p>\n" +
+            "                                                     <p>机体的内环境和稳态<b>（生理学<b>P4</b>）</b>。</p>\n" +
+            "                                                     <p style="color:#4a90e2"><b>[题眼解析]</b></p>\n" +
+            "                                                     <p>安静时细胞膜对离子有相对通透性，水可以自由通过细胞膜，细胞维持正常形态需要细胞内外总渗透压相同<b><b>（故选B）</b></b>。Na⁺胞外浓度为145mmol/L，胞内浓度为12mmol/L<b><b>（故不选A）</b></b>。Cl⁻的胞外浓度为116mmol/L，胞内浓度为4.2mmol/L<b><b>（故不选D）</b></b>。K⁺的胞外浓度为4.5mmol/L，胞内浓度为155mmol/L<b><b>（故不选E）</b></b>。胶体渗透压主要由蛋白质产生，组织液中的蛋白质含量少<b><b>（故不选C）</b></b>。</p>\n" +
+            "                                                     <p style="color:#4a90e2"><b>[知识拓展]</b></p>\n" +
+            "                                                     <p>总渗透压由晶体渗透压<b>（主）</b>和胶体渗透压组成，晶体渗透压主要维持细胞内外水平衡，胶体渗透压主要维持血管内外水平衡。</p> ]]></Data></string>
+
 </resources>

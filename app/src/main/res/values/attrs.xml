@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ratingbar属性 -->
+    <declare-styleable name="MyRatingBar">
+        <!-- 星星的个数 -->
+        <attr name="starsNumber" format="integer"/>
+        <!-- 星星的大小 -->
+        <attr name="starSize" format="dimension"/>
+        <!-- 星星之间的间隔大小 -->
+        <attr name="starsSeparation" format="dimension"/>
+        <!-- 是否仅作指示 -->
+        <attr name="starIsIndicator" format="boolean"/>
+        <!-- 星星的进度 -->
+        <attr name="starRating" format="float"/>
+        <!-- 星星的步辐 -->
+        <attr name="starStepSize" format="float"/>
+        <!-- 星星的默认图片 -->
+        <attr name="starNormalImg" format="reference"/>
+        <!-- 星星的选中图片 -->
+        <attr name="starSelectImg" format="reference"/>
+
+
+    </declare-styleable>
+
+
+    <declare-styleable name="SelectView">
+
+        <!-- 是否绘制刻度线 -->
+        <attr name="isCanvasLine" format="boolean"/>
+        <!-- 背景颜色 -->
+        <attr name="bgColor" format="color|reference"/>
+        <!-- 文字尺寸 -->
+        <attr name="textSize" format="dimension"/>
+        <!-- 文字颜色 -->
+        <attr name="textColor" format="color|reference"/>
+        <!-- 选中文字颜色 -->
+        <attr name="textSelectColor" format="color|reference"/>
+        <!-- 每个模块的尺寸 -->
+        <attr name="unitSize" format="dimension"/>
+        <!-- 长刻度的间隔数 -->
+        <attr name="unitLongLine" format="integer"/>
+
+    </declare-styleable>
+
+    <!-- 滚轮属性 -->
+    <declare-styleable name="WheelView">
+
+        <!-- 文字尺寸 -->
+        <attr name="wheelTextSize" format="dimension"/>
+        <!-- 文字颜色 -->
+        <attr name="wheelTextColor" format="color"/>
+        <!-- 选中文字颜色 -->
+        <attr name="wheelTextSelectColor" format="color"/>
+        <!-- 中间线颜色 -->
+        <attr name="wheelLineColor" format="color"/>
+
+    </declare-styleable>
+
+
+    <!-- 球形波浪线进度条 -->
+    <declare-styleable name="WaveProgressView">
+
+        <attr name="waveradius" format="dimension"/>
+        <attr name="waveprogress" format="integer"/>
+        <attr name="wavetextColor" format="color"/>
+        <attr name="waveColor" format="color"/>
+        <attr name="waveborderColor" format="color"/>
+        <attr name="wavehideText" format="boolean"/>
+        <attr name="waveborderWidth" format="dimension"/>
+        <attr name="wavetextSize" format="dimension"/>
+        <attr name="waveHeight" format="dimension"/>
+
+    </declare-styleable>
+
+
+</resources>
