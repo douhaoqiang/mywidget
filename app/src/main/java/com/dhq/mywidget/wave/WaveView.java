@@ -186,10 +186,12 @@ public class WaveView extends View {
         mWavePath.reset();
 
         mCirclePath.addCircle(mRadius, mRadius, mRadius, Path.Direction.CCW);
-        mWavePath.moveTo(mProgressSize * -1f + mMoveX, getWaveBaseLine());
+        mWavePath.moveTo(0 + mMoveX, getWaveBaseLine());
+
+        //绘制两个波长的波纹
         for (int i = 0; i < 2; i++) {
-            mWavePath.rQuadTo(mProgressSize / 4, mWaveHeight, mProgressSize / 2, 0);
             mWavePath.rQuadTo(mProgressSize / 4, -mWaveHeight, mProgressSize / 2, 0);
+            mWavePath.rQuadTo(mProgressSize / 4, mWaveHeight, mProgressSize / 2, 0);
         }
         mWavePath.lineTo(mProgressSize, mProgressSize);
         mWavePath.lineTo(0, mProgressSize);
@@ -213,10 +215,10 @@ public class WaveView extends View {
                 mRadius + mTextRect.height() / 2, mTextPaint);
 
         //开启属性动画使波浪浪起来(这里只需要启动一次)
-        if (!isStartAnimation) {
-            isStartAnimation = true;
-            startAnimation();
-        }
+//        if (!isStartAnimation) {
+//            isStartAnimation = true;
+//            startAnimation();
+//        }
 
     }
 
