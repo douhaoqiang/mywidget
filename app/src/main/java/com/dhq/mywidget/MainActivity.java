@@ -43,7 +43,15 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initialize() {
-        ButterKnife.bind(this);
+        btnCirclePrograss=findViewById(R.id.btn_circle_prograss);
+        btnSelectView=findViewById(R.id.btn_select_view);
+        btnStar=findViewById(R.id.btn_star);
+        tvHtmlView=findViewById(R.id.tv_html_text);
+        tvHtmlView2=findViewById(R.id.tv_html_text2);
+        btn_date=findViewById(R.id.btn_date_select);
+        btnWave=findViewById(R.id.btn_wave);
+
+
         btnCirclePrograss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
