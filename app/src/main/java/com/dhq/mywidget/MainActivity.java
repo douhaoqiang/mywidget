@@ -13,26 +13,16 @@ import com.dhq.mywidget.ui.SelectActivity;
 import com.dhq.mywidget.ui.StarActivity;
 import com.dhq.mywidget.wave.WaveActivity;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
 
-    @BindView(R.id.btn_circle_prograss)
     Button btnCirclePrograss;
-    @BindView(R.id.btn_select_view)
     Button btnSelectView;
-    @BindView(R.id.btn_star)
     Button btnStar;
-    @BindView(R.id.tv_html_text)
     TextView tvHtmlView;
-    @BindView(R.id.tv_html_text2)
     TextView tvHtmlView2;
-
-    @BindView(R.id.btn_date_select)
     Button btn_date;
 
-    @BindView(R.id.btn_wave)
     Button btnWave;
 
 
