@@ -40,7 +40,7 @@ public class WheelView<T> extends View {
     private int mDefaultIndex = (mMaxValue + mMinValue) / 2;//默认选中项下标
     private int lineColor = Color.rgb(228, 228, 228);//背景颜色
     private int textColor = Color.rgb(151, 151, 151);//文字的颜色
-    private int textSelectColor = Color.rgb(151, 151, 151);//选中文字的颜色
+    private int textSelectColor = Color.RED;//选中文字的颜色
 
     private int minvelocity;
 
@@ -76,7 +76,7 @@ public class WheelView<T> extends View {
             mTextSize = typedArray.getDimension(R.styleable.WheelView_wheelTextSize, dip2px(30));
             lineColor = typedArray.getColor(R.styleable.WheelView_wheelLineColor, getResources().getColor(R.color.line_gray));
             textColor = typedArray.getColor(R.styleable.WheelView_wheelTextColor, getResources().getColor(R.color.text_gray));
-            textSelectColor = typedArray.getColor(R.styleable.WheelView_wheelTextSelectColor, getResources().getColor(R.color.line_gray));
+            textSelectColor = typedArray.getColor(R.styleable.WheelView_wheelTextSelectColor, Color.RED);
             typedArray.recycle();
         }
         mUnit = mTextSize + 50;
@@ -177,8 +177,8 @@ public class WheelView<T> extends View {
             if (isCanShow(itemCenterY)) {
 
                 float centerX = mWidth / 2;
-                int alpha = (int) (255 * ((mHeight / 2 - Math.abs(mHeight / 2 - itemCenterY)) / (mHeight / 2)));
-                mPaintText.setAlpha(alpha);
+//                int alpha = (int) (255 * ((mHeight / 2 - Math.abs(mHeight / 2 - itemCenterY)) / (mHeight / 2)));
+//                mPaintText.setAlpha(alpha);
 
                 String text = "";
                 if (mSelectListener != null) {
@@ -186,11 +186,50 @@ public class WheelView<T> extends View {
                 }
 
                 float topY = itemCenterY - mUnit / 2;
+                float bottomY = itemCenterY + mUnit / 2;
 
-                canvas.drawText(text,
-                        centerX - getFontlength(mPaintText, text) / 2,
-                        topY + getFontBaseLineHeight(mPaintText),
-                        mPaintText);
+                float line1Y = (mHeight - mUnit) / 2;
+                float line2Y = (mHeight + mUnit) / 2;
+
+
+                if (topY <= line1Y && bottomY >= line1Y) {
+
+                    //判断是否在两条线中间
+                    canvas.save();
+                    canvas.clipRect(0, 0, mWidth, line1Y);
+                    canvas.drawText(text, centerX - getFontlength(mPaintText, text) / 2, topY + getFontBaseLineHeight(mPaintText), mPaintText);
+                    canvas.restore();
+
+                    canvas.save();
+
+                    mPaintText.setColor(textSelectColor);
+                    canvas.clipRect(0, line1Y, mWidth, line2Y);
+                    canvas.drawText(text, centerX - getFontlength(mPaintText, text) / 2, topY + getFontBaseLineHeight(mPaintText), mPaintText);
+                    canvas.restore();
+
+                    mPaintText.setColor(textColor);
+
+                } else if (topY <= line2Y && bottomY >= line2Y ) {
+                    //判断是否在两条线中间
+                    canvas.save();
+                    mPaintText.setColor(textSelectColor);
+                    canvas.clipRect(0, line1Y, mWidth, line2Y);
+                    canvas.drawText(text, centerX - getFontlength(mPaintText, text) / 2, topY + getFontBaseLineHeight(mPaintText), mPaintText);
+                    canvas.restore();
+                    mPaintText.setColor(textColor);
+
+                    canvas.save();
+                    canvas.clipRect(0, line2Y, mWidth, mHeight);
+                    canvas.drawText(text, centerX - getFontlength(mPaintText, text) / 2, topY + getFontBaseLineHeight(mPaintText), mPaintText);
+                    canvas.restore();
+
+                } else {
+                    canvas.drawText(text,
+                            centerX - getFontlength(mPaintText, text) / 2,
+                            topY + getFontBaseLineHeight(mPaintText),
+                            mPaintText);
+                }
+
 
             }
         }
@@ -391,8 +430,9 @@ public class WheelView<T> extends View {
 
 
     private void moveToY(int distance, int time) {
-        if (mScrolleAnim != null)
+        if (mScrolleAnim != null) {
             clearAnimation();
+        }
         mScrolleAnim = new ScrolleAnim((distance * mUnit), mPointY);
         mScrolleAnim.setDuration(time);
         startAnimation(mScrolleAnim);

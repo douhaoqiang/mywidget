@@ -380,8 +380,9 @@ public class SelectView<T> extends View {
 
 
     private void moveToX(int distance, int time) {
-        if (mScrolleAnim != null)
+        if (mScrolleAnim != null) {
             clearAnimation();
+        }
         mScrolleAnim = new ScrolleAnim((distance * mUnit), mPointX);
         mScrolleAnim.setDuration(time);
         startAnimation(mScrolleAnim);
