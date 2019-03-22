@@ -54,6 +54,10 @@
         <attr name="wheelTextSelectColor" format="color"/>
         <!-- 中间线颜色 -->
         <attr name="wheelLineColor" format="color"/>
+        <!-- 文字间隔 -->
+        <attr name="wheelTextSpace" format="dimension"/>
+        <!-- 是否可循环 -->
+        <attr name="wheelCycle" format="boolean"/>
 
     </declare-styleable>
 

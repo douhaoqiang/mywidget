@@ -29,14 +29,12 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile var.SupportV7
+    api fileTree(dir: 'libs', include: ['*.jar'])
+
+    api var.SupportV7
 //    compile var.SupportDesign
 //    compile var.SupportCardview
-    compile var.SupportRecyclerview
-    testCompile 'junit:junit:4.12'
-    compile(name: 'baselibrary-release', ext: 'aar')
+    api var.SupportRecyclerview
+
+    api(name: 'baselibrary-release', ext: 'aar')
 }

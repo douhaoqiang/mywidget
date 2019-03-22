@@ -28,6 +28,7 @@ public class WheelView<T> extends View {
     private Paint mPaintText;//文字画笔
 
     private float mTextSize = 0;
+    private float mTextSpace = 0;
     private float mPointY = 0f;
     private float mPointYoff = 0f;
     private int mPadding = dip2px(1);
@@ -49,6 +50,7 @@ public class WheelView<T> extends View {
 
     private int mHeight = 100;//控件的高度
     private int mWidth = 300;//控件的宽度
+    private boolean mIsCycle = true;//是否可循环
 
     private T mSelectItem;
 
@@ -77,9 +79,11 @@ public class WheelView<T> extends View {
             lineColor = typedArray.getColor(R.styleable.WheelView_wheelLineColor, getResources().getColor(R.color.line_gray));
             textColor = typedArray.getColor(R.styleable.WheelView_wheelTextColor, getResources().getColor(R.color.text_gray));
             textSelectColor = typedArray.getColor(R.styleable.WheelView_wheelTextSelectColor, Color.RED);
+            mTextSpace = typedArray.getDimension(R.styleable.WheelView_wheelTextSpace, dip2px(0));
+            mIsCycle = typedArray.getBoolean(R.styleable.WheelView_wheelCycle, true);
             typedArray.recycle();
         }
-        mUnit = mTextSize + 50;
+        mUnit = mTextSize + mTextSpace;
         initPaint();
     }
 
@@ -119,10 +123,14 @@ public class WheelView<T> extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        int widthMode = MeasureSpec.getMode(widthMeasureSpec);//获取宽的模式
-        int heightMode = MeasureSpec.getMode(heightMeasureSpec);//获取高的模式
-        int widthSize = MeasureSpec.getSize(widthMeasureSpec);//获取宽的尺寸
-        int heightSize = MeasureSpec.getSize(heightMeasureSpec);//获取高的尺寸
+        //获取宽的模式
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        //获取高的模式
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        //获取宽的尺寸
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        //获取高的尺寸
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
         //根据宽的模式进行判断并复制
         if (widthMode == MeasureSpec.EXACTLY) {
@@ -165,73 +173,158 @@ public class WheelView<T> extends View {
      */
     private void canvasShowText(Canvas canvas) {
 
-        for (int i = 1; i <= listValue.size(); i++) {
 
-            //距离中间刻度的间隔数
-            int space = mDefaultIndex - i;
+        if (mIsCycle) {
+            //如果可以循环
 
-            //计算刻度的纵坐标位置
-            float itemCenterY = mHeight / 2 - space * mUnit + mPointY;
+            //绘制中间文字
+            //移动了多少个item
+            int moveCount = (int) (mPointY / mUnit);
+            //移动后中间位置的坐标
+            int space = mDefaultIndex - moveCount;
 
+            //移动后中间文字item的中心坐标
+            float itemHeightOffset = (mPointY % mUnit);
+            float itemCenterY = mHeight / 2 + itemHeightOffset;
             //判断该点坐标是否在视图范围内
             if (isCanShow(itemCenterY)) {
 
-                float centerX = mWidth / 2;
+                String text = "";
+                if (mWheelListener != null) {
+                    text = mWheelListener.setShowValue(getShowItem(space - 1));
+                }
+                canvasText(canvas, itemCenterY, text);
+            }
+
+            //绘制上部文字
+            float aboveCenterY = itemCenterY - mUnit;
+            int i = 1;
+            while (isCanShow(aboveCenterY)) {
+                String text = "";
+                if (mWheelListener != null) {
+                    text = mWheelListener.setShowValue(getShowItem(space - i - 1));
+                }
+                canvasText(canvas, aboveCenterY, text);
+                aboveCenterY -= mUnit;
+                i++;
+            }
+
+            //绘制下部文字
+            float belowCenterY = itemCenterY + mUnit;
+            int j = 1;
+            while (isCanShow(belowCenterY)) {
+                String text = "";
+                if (mWheelListener != null) {
+                    text = mWheelListener.setShowValue(getShowItem(space + j - 1));
+                }
+                canvasText(canvas, belowCenterY, text);
+                belowCenterY += mUnit;
+                j++;
+            }
+
+        } else {
+            //不能循环
+            for (int i = 1; i <= listValue.size(); i++) {
+                //距离中间刻度的间隔数
+                int space = mDefaultIndex - i;
+
+                //计算刻度的纵坐标位置
+                float itemCenterY = mHeight / 2 - space * mUnit + mPointY;
+
+                //判断该点坐标是否在视图范围内
+                if (isCanShow(itemCenterY)) {
+
+                    String text = "";
+                    if (mWheelListener != null) {
+                        text = mWheelListener.setShowValue(getShowItem(i - 1));
+                    }
+                    canvasText(canvas, itemCenterY, text);
+
+                }
+            }
+        }
+
+
+    }
+
+    private void canvasText(Canvas canvas, float itemCenterY, String text) {
+
+        float centerX = mWidth / 2;
 //                int alpha = (int) (255 * ((mHeight / 2 - Math.abs(mHeight / 2 - itemCenterY)) / (mHeight / 2)));
 //                mPaintText.setAlpha(alpha);
 
-                String text = "";
-                if (mSelectListener != null) {
-                    text = mSelectListener.setShowValue(listValue.get(i - 1));
-                }
 
-                float topY = itemCenterY - mUnit / 2;
-                float bottomY = itemCenterY + mUnit / 2;
+        float topY = itemCenterY - mUnit / 2;
+        float bottomY = itemCenterY + mUnit / 2;
 
-                float line1Y = (mHeight - mUnit) / 2;
-                float line2Y = (mHeight + mUnit) / 2;
+        float line1Y = (mHeight - mUnit) / 2;
+        float line2Y = (mHeight + mUnit) / 2;
 
 
-                if (topY <= line1Y && bottomY >= line1Y) {
+        if (topY <= line1Y && bottomY >= line1Y) {
 
-                    //判断是否在两条线中间
-                    canvas.save();
-                    canvas.clipRect(0, 0, mWidth, line1Y);
-                    canvas.drawText(text, centerX - getFontlength(mPaintText, text) / 2, topY + getFontBaseLineHeight(mPaintText), mPaintText);
-                    canvas.restore();
+            //绘制夸第一条线的文字
+            canvas.save();
+            canvas.clipRect(0, 0, mWidth, line1Y);
+            canvas.drawText(text,
+                    centerX - getFontlength(mPaintText, text) / 2,
+                    topY + getFontBaseLineHeight(mPaintText),
+                    mPaintText);
+            canvas.restore();
 
-                    canvas.save();
+            canvas.save();
+            mPaintText.setColor(textSelectColor);
+            canvas.clipRect(0, line1Y, mWidth, line2Y);
+            canvas.drawText(text,
+                    centerX - getFontlength(mPaintText, text) / 2,
+                    topY + getFontBaseLineHeight(mPaintText),
+                    mPaintText);
+            canvas.restore();
+            mPaintText.setColor(textColor);
 
-                    mPaintText.setColor(textSelectColor);
-                    canvas.clipRect(0, line1Y, mWidth, line2Y);
-                    canvas.drawText(text, centerX - getFontlength(mPaintText, text) / 2, topY + getFontBaseLineHeight(mPaintText), mPaintText);
-                    canvas.restore();
+        } else if (topY <= line2Y && bottomY >= line2Y) {
+            //绘制夸第二条线的文字
+            canvas.save();
+            mPaintText.setColor(textSelectColor);
+            canvas.clipRect(0, line1Y, mWidth, line2Y);
+            canvas.drawText(text,
+                    centerX - getFontlength(mPaintText, text) / 2,
+                    topY + getFontBaseLineHeight(mPaintText),
+                    mPaintText);
+            canvas.restore();
+            mPaintText.setColor(textColor);
 
-                    mPaintText.setColor(textColor);
+            canvas.save();
+            canvas.clipRect(0, line2Y, mWidth, mHeight);
+            canvas.drawText(text,
+                    centerX - getFontlength(mPaintText, text) / 2,
+                    topY + getFontBaseLineHeight(mPaintText),
+                    mPaintText);
+            canvas.restore();
 
-                } else if (topY <= line2Y && bottomY >= line2Y ) {
-                    //判断是否在两条线中间
-                    canvas.save();
-                    mPaintText.setColor(textSelectColor);
-                    canvas.clipRect(0, line1Y, mWidth, line2Y);
-                    canvas.drawText(text, centerX - getFontlength(mPaintText, text) / 2, topY + getFontBaseLineHeight(mPaintText), mPaintText);
-                    canvas.restore();
-                    mPaintText.setColor(textColor);
-
-                    canvas.save();
-                    canvas.clipRect(0, line2Y, mWidth, mHeight);
-                    canvas.drawText(text, centerX - getFontlength(mPaintText, text) / 2, topY + getFontBaseLineHeight(mPaintText), mPaintText);
-                    canvas.restore();
-
-                } else {
-                    canvas.drawText(text,
-                            centerX - getFontlength(mPaintText, text) / 2,
-                            topY + getFontBaseLineHeight(mPaintText),
-                            mPaintText);
-                }
+        } else {
+            //绘制在选中区域外面的文字
+            canvas.drawText(text,
+                    centerX - getFontlength(mPaintText, text) / 2,
+                    topY + getFontBaseLineHeight(mPaintText),
+                    mPaintText);
+        }
+    }
 
 
+    private T getShowItem(int position) {
+
+        if (position >= 0 && position < listValue.size()) {
+            return listValue.get(position);
+        } else if (position < 0) {
+            int poi = Math.abs(position % listValue.size());
+            if (poi != 0) {
+                return listValue.get(listValue.size() - poi);
+            } else {
+                return listValue.get(0);
             }
+        } else {
+            return listValue.get(position % listValue.size());
         }
 
     }
@@ -244,6 +337,11 @@ public class WheelView<T> extends View {
      * @return
      */
     private boolean isCanShow(float itemCenterY) {
+
+
+        if ((itemCenterY>mHeight+mUnit/2) || (itemCenterY<-mUnit/2)){
+            return false;
+        }
 
         if (itemCenterY > mHeight / 2) {
             //当在中间以下是 看上边缘位置
@@ -356,7 +454,7 @@ public class WheelView<T> extends View {
         }
     }
 
-    public int dip2px(float dpValue) {
+    private int dip2px(float dpValue) {
         final float scale = getContext().getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
@@ -415,17 +513,26 @@ public class WheelView<T> extends View {
 
 
     private void startAnim() {
-        float mMinPointY = (mDefaultIndex - mMinValue) * mUnit;
-        float mMaxPointY = (mMaxValue - mDefaultIndex) * mUnit;
 
-        if (mPointY > 0 && Math.abs(mPointY) > mMinPointY) {
-            moveToY(mDefaultIndex - mMinValue, 300);
-        } else if (mPointY < 0 && Math.abs(mPointY) > mMaxPointY) {
-            moveToY(mDefaultIndex - mMaxValue, 300);
+        if (!mIsCycle) {
+            float mMinPointY = (mDefaultIndex - mMinValue) * mUnit;
+            float mMaxPointY = (mMaxValue - mDefaultIndex) * mUnit;
+
+            if (mPointY > 0 && Math.abs(mPointY) > mMinPointY) {
+                moveToY(mDefaultIndex - mMinValue, 300);
+            } else if (mPointY < 0 && Math.abs(mPointY) > mMaxPointY) {
+                moveToY(mDefaultIndex - mMaxValue, 300);
+            } else {
+                int space = (int) (Math.rint(mPointY / mUnit));//四舍五入计算出往上还是往下滑动
+                moveToY(space, 200);
+            }
         } else {
+
             int space = (int) (Math.rint(mPointY / mUnit));//四舍五入计算出往上还是往下滑动
             moveToY(space, 200);
         }
+
+
     }
 
 
@@ -436,14 +543,14 @@ public class WheelView<T> extends View {
         mScrolleAnim = new ScrolleAnim((distance * mUnit), mPointY);
         mScrolleAnim.setDuration(time);
         startAnimation(mScrolleAnim);
-        if (mSelectListener != null) {
+        if (mWheelListener != null) {
             int index = mDefaultIndex - distance - 1;
             if (index < 0 || index >= listValue.size()) {
                 return;
             }
             if (mSelectItem != listValue.get(index)) {
                 mSelectItem = listValue.get(index);
-                mSelectListener.onSelectItem(listValue.get(index));
+                mWheelListener.onSelectItem(listValue.get(index));
             }
 
         }
@@ -452,7 +559,7 @@ public class WheelView<T> extends View {
 
     private List<T> listValue = new ArrayList<>();
 
-    private SelectListener mSelectListener;
+    private WheelListener mWheelListener;
 
 
     /**
@@ -461,7 +568,7 @@ public class WheelView<T> extends View {
      * @param list 要设置的滑动数据
      */
     public void setDatas(List<T> list) {
-        setDatas(list, 1);
+        setDatas(list, 0);
     }
 
     /**
@@ -474,18 +581,21 @@ public class WheelView<T> extends View {
         listValue = list;
         mMaxValue = listValue.size();
         mMinValue = 1;
-        mDefaultIndex = index;
-
+        if (index == 0) {
+            mDefaultIndex = (mMaxValue + mMinValue) / 2;
+        } else {
+            mDefaultIndex = 1;
+        }
         invalidate();
 
     }
 
 
-    public void setSelectListener(SelectListener selectListener) {
-        this.mSelectListener = selectListener;
+    public void setSelectListener(WheelListener selectListener) {
+        this.mWheelListener = selectListener;
     }
 
-    public interface SelectListener<T> {
+    public interface WheelListener<T> {
         String setShowValue(T item);
 
         void onSelectItem(T item);

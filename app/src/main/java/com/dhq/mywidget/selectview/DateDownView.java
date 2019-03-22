@@ -156,7 +156,7 @@ public class DateDownView {
         mWheelMonth.setDatas(monthList, monthIndex);
         mWheelDay.setDatas(dayList, dayIndex);
 
-        mWheelYear.setSelectListener(new WheelView.SelectListener<String>() {
+        mWheelYear.setSelectListener(new WheelView.WheelListener<String>() {
             @Override
             public String setShowValue(String item) {
                 return item;
@@ -172,7 +172,7 @@ public class DateDownView {
             }
         });
 
-        mWheelMonth.setSelectListener(new WheelView.SelectListener<String>() {
+        mWheelMonth.setSelectListener(new WheelView.WheelListener<String>() {
             @Override
             public String setShowValue(String item) {
                 return item;
@@ -186,7 +186,7 @@ public class DateDownView {
             }
         });
 
-        mWheelDay.setSelectListener(new WheelView.SelectListener<String>() {
+        mWheelDay.setSelectListener(new WheelView.WheelListener<String>() {
             @Override
             public String setShowValue(String item) {
                 return item;

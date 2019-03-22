@@ -45,7 +45,7 @@ public class SelectActivity extends AppCompatActivity {
         }
         selectView.setDatas(list_year);
 
-        wheelView.setSelectListener(new WheelView.SelectListener<String>() {
+        wheelView.setSelectListener(new WheelView.WheelListener<String>() {
             @Override
             public String setShowValue(String item) {
                 return item;
@@ -56,8 +56,9 @@ public class SelectActivity extends AppCompatActivity {
                 Log.d("wheelView", item);
             }
         });
+
         List<String> list_year2 = new ArrayList<>();
-        for (int i = 1988; i <= 2056; i++) {
+        for (int i = 1; i <= 3; i++) {
             list_year2.add(i + "");
         }
         wheelView.setDatas(list_year2);
