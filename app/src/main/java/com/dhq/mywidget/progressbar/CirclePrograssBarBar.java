@@ -1,4 +1,4 @@
-package com.dhq.mywidget;
+package com.dhq.mywidget.progressbar;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -9,6 +9,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+
+import com.dhq.mywidget.R;
 
 /**
  * DESC 半圆形进度条
