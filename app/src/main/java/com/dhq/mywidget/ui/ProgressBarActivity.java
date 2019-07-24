@@ -5,14 +5,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.dhq.mywidget.R;
-import com.dhq.mywidget.circleprograss.CircleProgressView;
+import com.dhq.mywidget.progressbar.CircleProgressView;
 
 /**
  * DESC 圆形进度条
  * Created by douhaoqiang on 2017/7/24.
  */
 
-public class CircleProgressActivity extends AppCompatActivity {
+public class ProgressBarActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

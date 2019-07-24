@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.dhq.baselibrary.activity.BaseActivity;
-import com.dhq.mywidget.ui.CircleProgressActivity;
+import com.dhq.mywidget.ui.ProgressBarActivity;
 import com.dhq.mywidget.ui.DateSelectActivity;
 import com.dhq.mywidget.ui.SelectActivity;
 import com.dhq.mywidget.ui.StarActivity;
@@ -45,7 +45,7 @@ public class MainActivity extends BaseActivity {
         btnCirclePrograss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CircleProgressActivity.class);
+                Intent intent = new Intent(MainActivity.this, ProgressBarActivity.class);
                 startActivity(intent);
             }
         });

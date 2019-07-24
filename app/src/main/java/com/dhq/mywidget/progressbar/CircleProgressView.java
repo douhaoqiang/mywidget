@@ -1,4 +1,4 @@
-package com.dhq.mywidget.circleprograss;
+package com.dhq.mywidget.progressbar;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -39,9 +39,6 @@ public class CircleProgressView extends View {
 
     private final Context mContext;
 
-    private String mTxtHint1;
-
-    private String mTxtHint2;
 
     public CircleProgressView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -93,33 +90,10 @@ public class CircleProgressView extends View {
         canvas.drawText(text, width / 2 - textWidth / 2, height / 2 + textHeight / 2, mPaint);
 
 
-        if (!TextUtils.isEmpty(mTxtHint1)) {
-            mPaint.setStrokeWidth(mTxtStrokeWidth);
-            text = mTxtHint1;
-            textHeight = (int) (mRectF.width() / 8);
-            mPaint.setTextSize(textHeight);
-            mPaint.setColor(Color.rgb(0x99, 0x99, 0x99));
-            textWidth = (int) mPaint.measureText(text, 0, text.length());
-            mPaint.setStyle(Paint.Style.FILL);
-            canvas.drawText(text, width / 2 - textWidth / 2, mRectF.width() / 4 + textHeight, mPaint);
-        }
-
-        if (!TextUtils.isEmpty(mTxtHint2)) {
-            mPaint.setStrokeWidth(mTxtStrokeWidth);
-            text = mTxtHint2;
-            textHeight = (int) (mRectF.width() / 8);
-            mPaint.setTextSize(textHeight);
-            textWidth = (int) mPaint.measureText(text, 0, text.length());
-            mPaint.setStyle(Paint.Style.FILL);
-            canvas.drawText(text, mRectF.width() / 2 - textWidth / 2, 3 * mRectF.width() / 4 + textHeight / 2, mPaint);
-        }
-
         drawBitmap(canvas);
     }
 
     /**
-     * @author liuhaijian
-     * @time 2017-05-18 10:09
      * 方法描述：绘制左上角的图片
      */
     private void drawBitmap(Canvas canvas) {
@@ -127,9 +101,6 @@ public class CircleProgressView extends View {
         int mBitWidth = bitmap.getWidth();
         int mBitHeight = bitmap.getHeight();
         //计算图片坐标
-//        int bitX = (int) (getWidth()/2-circleR*Math.sin(((float) mProgress / mMaxProgress) * 360))-mBitWidth/2;
-//        int bitY = (int) (getHeight()/2+circleR*Math.cos(((float) mProgress / mMaxProgress) * 360))-mBitHeight/2;
-
         int bitX = (int) (getWidth() / 2 - circleR * Math.sin(2 * Math.PI * ((float) mProgress / mMaxProgress))) - mBitWidth / 2;
         int bitY = (int) (getHeight() / 2 + circleR * Math.cos(2 * Math.PI * ((float) mProgress / mMaxProgress))) - mBitHeight / 2;
         canvas.drawBitmap(bitmap, bitX, bitY, mPaint);
@@ -148,24 +119,5 @@ public class CircleProgressView extends View {
         this.invalidate();
     }
 
-    public void setProgressNotInUiThread(int progress) {
-        this.mProgress = progress;
-        this.postInvalidate();
-    }
 
-    public String getmTxtHint1() {
-        return mTxtHint1;
-    }
-
-    public void setmTxtHint1(String mTxtHint1) {
-        this.mTxtHint1 = mTxtHint1;
-    }
-
-    public String getmTxtHint2() {
-        return mTxtHint2;
-    }
-
-    public void setmTxtHint2(String mTxtHint2) {
-        this.mTxtHint2 = mTxtHint2;
-    }
 }

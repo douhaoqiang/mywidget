@@ -20,7 +20,7 @@
 
 
         <activity android:name=".wave.WaveActivity"/>
-        <activity android:name=".ui.CircleProgressActivity"/>
+        <activity android:name=".ui.ProgressBarActivity"/>
         <activity android:name=".ui.DateSelectActivity"/>
         <activity android:name=".ui.SelectActivity"/>
         <activity android:name=".ui.StarActivity"/>
